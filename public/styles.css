@@ -1,4 +1,21 @@
+body {
+    font-family: sans-serif;
+}
+
 .check-list {
     display: flex;
     flex-direction: column;
+    margin: 25px;
+}
+
+.check-list-item {
+    margin-bottom: 8px;
+}
+
+.check-list-item-inp {
+    margin-right: 8px;
+}
+
+.check-list-item-label.disabled {
+    color: lightgrey;
 }

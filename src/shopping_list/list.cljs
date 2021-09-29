@@ -31,14 +31,19 @@
       [:div.check-list
        [:div.check-list-items
         (doall
-         (for [[id {:keys [desc price selected]}] (:goods @state)]
+         (for [[id {:keys [desc price selected]}] (:goods @state)
+               :let [disabled (and (> (+ price (:total @state)) 100) (not selected))]]
            [:div.check-list-item {:key id}
-            [:input {:type "checkbox" :id id
-                     :disabled (and (> (+ price (:total @state)) 100) (not selected))
-                     :on-change #(swap! state (fn [g]
-                                                (-> g
-                                                    (update-in [:goods id :selected] not)
-                                                    (update :total (if selected - +) price))))}]
-            [:label {:for id} (str (str/capitalize desc) " " (->usd price))]]))]
+            [:input.check-list-item-inp
+             {:type "checkbox" :id id
+              :disabled disabled
+              :on-change #(swap! state (fn [g]
+                                         (-> g
+                                             (update-in [:goods id :selected] not)
+                                             (update :total (if selected - +) price))))}]
+            [:label.check-list-item-label {:for id
+                                           :class (when disabled "disabled")}
+             (str (str/capitalize desc) " " (->usd price))]]))]
+       [:hr]
        [:div.check-list-total
         "Total: " (->usd (:total @state))]])))
