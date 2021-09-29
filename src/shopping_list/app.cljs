@@ -1,9 +1,12 @@
 (ns shopping-list.app
-  (:require [reagent.dom :as rdom]))
+  (:require [reagent.dom :as rdom]
+            [shopping-list.list :as list]))
+
+
 
 (defn app
   []
-  [:div "Hello from app"])
+  [list/view])
 
 (defn ^:dev/after-load render []
   (rdom/render [app] (.getElementById js/document "app")))
