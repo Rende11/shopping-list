@@ -1,5 +1,6 @@
 (ns shopping-list.list
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [reagent.core :as r]))
 
 (def goods
   {:id-1 {:desc "t-shirt"
@@ -19,10 +20,25 @@
    :id-8 {:desc "reading glasses"
           :price 23.5}})
 
+
+(defn ->usd [v]
+  (str v "$"))
+
 (defn view []
-  [:div.check-list
-   [:div.check-list-items
-    (for [[id {:keys [desc price]}] goods]
-      [:div.check-list-item {:key id}
-       [:input {:type "checkbox" :id id}]
-       [:label {:for id} (str (str/capitalize desc) " " price "$")]])]])
+  (let [state (r/atom {:goods goods
+                       :total 0})]
+    (fn []
+      [:div.check-list
+       [:div.check-list-items
+        (doall
+         (for [[id {:keys [desc price selected]}] (:goods @state)]
+           [:div.check-list-item {:key id}
+            [:input {:type "checkbox" :id id
+                     :disabled (and (> (+ price (:total @state)) 100) (not selected))
+                     :on-change #(swap! state (fn [g]
+                                                (-> g
+                                                    (update-in [:goods id :selected] not)
+                                                    (update :total (if selected - +) price))))}]
+            [:label {:for id} (str (str/capitalize desc) " " (->usd price))]]))]
+       [:div.check-list-total
+        "Total: " (->usd (:total @state))]])))
