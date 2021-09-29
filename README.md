@@ -1,15 +1,13 @@
-# Simple "shopping list" with 100$ limit :)
+### Simple "shopping list" with 100$ limit :) [DEMO](https://shopping-list-sigma.vercel.app/)
 
-## [DEMO](https://shopping-list-sigma.vercel.app/)
+### How to launch
 
-## How to launch
-
-### Install desp
+#### Install desp
 ```
 npm install
 ```
 
-### Run in dev mode
+#### Run in dev mode
 ```
 npx shadow-cljs watch app
 ```
