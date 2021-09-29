@@ -2,8 +2,6 @@
   (:require [reagent.dom :as rdom]
             [shopping-list.list :as list]))
 
-
-
 (defn app
   []
   [list/view])
